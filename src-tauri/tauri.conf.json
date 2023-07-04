@@ -9,7 +9,7 @@
   },
   "package": {
     "productName": "spotDL",
-    "version": "0.1.0"
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -17,6 +17,7 @@
       "shell": {
         "all": false,
         "execute": true,
+        "open": true,
         "scope": [
           {
             "name": "binaries/spotdl-4.1.11",
@@ -43,7 +44,8 @@
         "icons/icon.ico"
       ],
       "identifier": "spotdl.app",
-      "longDescription": "",
+      "longDescription": "Download your Spotify playlists and songs along with album art and metadata (from YouTube if a match is found).",
+      "shortDescription": "Download songs from Spotify.",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -52,7 +54,6 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,

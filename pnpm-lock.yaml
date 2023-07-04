@@ -10,6 +10,9 @@ dependencies:
     version: 1.4.0
 
 devDependencies:
+  '@sveltejs/adapter-static':
+    specifier: ^2.0.2
+    version: 2.0.2(@sveltejs/kit@1.21.0)
   '@sveltejs/kit':
     specifier: ^1.21.0
     version: 1.21.0(svelte@4.0.3)(vite@4.3.9)
@@ -414,6 +417,14 @@ packages:
 
   /@sinclair/typebox@0.25.24:
     resolution: {integrity: sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==}
+    dev: true
+
+  /@sveltejs/adapter-static@2.0.2(@sveltejs/kit@1.21.0):
+    resolution: {integrity: sha512-9wYtf6s6ew7DHUHMrt55YpD1FgV7oWql2IGsW5BXquLxqcY9vjrqCFo0TzzDpo+ZPZkW/v77k0eOP6tsAb8HmQ==}
+    peerDependencies:
+      '@sveltejs/kit': ^1.5.0
+    dependencies:
+      '@sveltejs/kit': 1.21.0(svelte@4.0.3)(vite@4.3.9)
     dev: true
 
   /@sveltejs/kit@1.21.0(svelte@4.0.3)(vite@4.3.9):
