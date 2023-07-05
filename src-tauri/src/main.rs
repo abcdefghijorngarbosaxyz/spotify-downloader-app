@@ -57,12 +57,33 @@ fn main() {
         ]),
       )),
       MenuEntry::Submenu(Submenu::new(
+        "View",
+        Menu::with_items([
+          CustomMenuItem::new("Downloads", "Downloads")
+            .accelerator("CmdOrCtrl+K")
+            .into(),
+          CustomMenuItem::new("Show Status Bar", "Show Status Bar")
+            .accelerator("CmdOrCtrl+J")
+            .into(),
+        ]),
+      )),
+      MenuEntry::Submenu(Submenu::new(
+        "Window",
+        Menu::with_items([MenuItem::Minimize.into()]),
+      )),
+      MenuEntry::Submenu(Submenu::new(
         "Help",
         Menu::with_items([
-          CustomMenuItem::new("Report Issue...", "Report Issue...").into(),
           CustomMenuItem::new("Documentation", "Documentation").into(),
+          CustomMenuItem::new("Show Release Notes", "Show Release Notes").into(),
+          MenuItem::Separator.into(),
+          CustomMenuItem::new("Report Issue", "Report Issue").into(),
+          CustomMenuItem::new("Join Us on Discord", "Join Us on Discord").into(),
+          MenuItem::Separator.into(),
+          CustomMenuItem::new("Check for Updates...", "Check for Updates...").into(),
           #[cfg(not(target_os = "macos"))]
           MenuItem::Separator.into(),
+          #[cfg(not(target_os = "macos"))]
           CustomMenuItem::new("About", "About").into(),
         ]),
       )),
@@ -93,7 +114,12 @@ fn main() {
     .expect("error while running tauri application");
 
   app.run(|_app_handle, run_event| match run_event {
-    // TODO populate with events
+    tauri::RunEvent::WindowEvent { event, .. } => match event {
+      tauri::WindowEvent::CloseRequested { api, .. } => {
+        // TODO confirm exit
+      }
+      _ => {}
+    },
     _ => {}
   });
 }
