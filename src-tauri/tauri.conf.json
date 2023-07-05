@@ -4,15 +4,34 @@
     "beforeBuildCommand": "pnpm build",
     "beforeDevCommand": "pnpm dev",
     "devPath": "http://localhost:5173",
-    "distDir": "../build"
+    "distDir": "../build",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "spotDL",
-    "version": "0.1.0"
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "dialog": {
+        "all": false,
+        "confirm": true,
+        "open": true
+      },
+      "shell": {
+        "all": false,
+        "execute": true,
+        "open": true,
+        "scope": [
+          {
+            "name": "binaries/spotdl-4.1.11",
+            "sidecar": true,
+            "args": true
+          }
+        ],
+        "sidecar": true
+      }
     },
     "bundle": {
       "active": true,
@@ -21,7 +40,7 @@
       "deb": {
         "depends": []
       },
-      "externalBin": [],
+      "externalBin": ["binaries/spotdl-4.1.11"],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -29,8 +48,9 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
-      "longDescription": "",
+      "identifier": "spotdl.app",
+      "longDescription": "Download your Spotify playlists and songs along with album art and metadata (from YouTube if a match is found).",
+      "shortDescription": "Download songs from Spotify.",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -39,8 +59,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "",
-      "targets": "all",
+      "targets": "msi",
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
@@ -55,11 +74,14 @@
     },
     "windows": [
       {
+        "title": "spotDL",
         "fullscreen": false,
         "height": 600,
-        "resizable": true,
-        "title": "spotDL",
-        "width": 800
+        "width": 800,
+        "center": true,
+        "label": "main",
+        "resizable": false,
+        "maximizable": false
       }
     ]
   }
