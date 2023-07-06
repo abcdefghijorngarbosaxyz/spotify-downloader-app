@@ -2,12 +2,25 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::api::{dialog, shell};
-use tauri::{CustomMenuItem, Manager, Menu, MenuEntry, MenuItem, Submenu};
+use tauri::{CustomMenuItem, Manager, Menu, MenuEntry, MenuItem, Submenu, WindowBuilder};
 
 fn main() {
   let context = tauri::generate_context!();
 
   let app = tauri::Builder::default()
+    .setup(move |app| {
+      let main_window = WindowBuilder::new(app, "main", tauri::WindowUrl::default())
+        .title("spotDL GUI")
+        .theme(tauri::Theme::Light.into())
+        .center()
+        .fullscreen(false)
+        .inner_size(800.0, 600.0)
+        .maximizable(false)
+        .resizable(false);
+
+      let _ = main_window.build().expect("unable to build main window");
+      Ok(())
+    })
     .menu(Menu::with_items([
       // Ready for macos cfg but no support for now
       #[cfg(target_os = "macos")]
@@ -45,12 +58,19 @@ fn main() {
             .into(),
           #[cfg(not(target_os = "macos"))]
           MenuItem::Separator.into(),
+          #[cfg(not(target_os = "macos"))]
           MenuItem::CloseWindow.into(),
         ]),
       )),
       MenuEntry::Submenu(Submenu::new(
         "Edit",
         Menu::with_items([
+          #[cfg(target_os = "macos")]
+          MenuItem::Undo.into(),
+          #[cfg(target_os = "macos")]
+          MenuItem::Redo.into(),
+          #[cfg(target_os = "macos")]
+          MenuItem::Separator.into(),
           MenuItem::Cut.into(),
           MenuItem::Copy.into(),
           MenuItem::Paste.into(),
@@ -65,6 +85,14 @@ fn main() {
           CustomMenuItem::new("Show Status Bar", "Show Status Bar")
             .accelerator("CmdOrCtrl+J")
             .into(),
+          #[cfg(target_os = "macos")]
+          MenuItem::Separator.into(),
+          #[cfg(target_os = "macos")]
+          MenuItem::Zoom.into(),
+          #[cfg(target_os = "macos")]
+          MenuItem::Separator.into(),
+          #[cfg(target_os = "macos")]
+          MenuItem::EnterFullScreen.into(),
         ]),
       )),
       MenuEntry::Submenu(Submenu::new(
@@ -94,7 +122,8 @@ fn main() {
         "Report Issue..." => {
           shell::open(
             &event.window().shell_scope(),
-            "https://github.com".to_string(),
+            "https://github.com/abcdefghijorngarbosaxyz/spotify-downloader-app/issues/new/choose"
+              .to_string(),
             None,
           )
           .unwrap();
@@ -102,7 +131,16 @@ fn main() {
         "Documentation" => {
           shell::open(
             &event.window().shell_scope(),
-            "https://github.com".to_string(),
+            "https://github.com/abcdefghijorngarbosaxyz/spotify-downloader-app/blob/main/README.md"
+              .to_string(),
+            None,
+          )
+          .unwrap();
+        }
+        "Join Us on Discord" => {
+          shell::open(
+            &event.window().shell_scope(),
+            "https://discord.gg/xCa23pwJWY",
             None,
           )
           .unwrap();

@@ -8,7 +8,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "spotDL",
+    "productName": "spotDL GUI",
     "version": "0.0.1"
   },
   "tauri": {
@@ -22,7 +22,7 @@
       "shell": {
         "all": false,
         "execute": true,
-        "open": true,
+        "open": "\\S+",
         "scope": [
           {
             "name": "binaries/spotdl-4.1.11",
@@ -71,18 +71,6 @@
     },
     "updater": {
       "active": false
-    },
-    "windows": [
-      {
-        "title": "spotDL",
-        "fullscreen": false,
-        "height": 600,
-        "width": 800,
-        "center": true,
-        "label": "main",
-        "resizable": false,
-        "maximizable": false
-      }
-    ]
+    }
   }
 }

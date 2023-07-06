@@ -1,5 +1,42 @@
-<script>
+<script lang="ts">
   import Nav from './Nav.svelte';
+
+  import { useTauriEvent } from '@app/lib/utils/useTauriEvent';
+  import { TauriEvent } from '@tauri-apps/api/event';
+  import { onDestroy, onMount } from 'svelte';
+  import { open as dialogOpen } from '@tauri-apps/api/dialog';
+  import { open as shellOpen } from '@tauri-apps/api/shell';
+  import { DOWNLOAD_FOLDER } from '@app/store';
+
+  let cleanUpSelectDownloadFolder: () => void;
+
+  onMount(() => {
+    cleanUpSelectDownloadFolder = useTauriEvent<string>(TauriEvent.MENU, async ({ payload }) => {
+      switch (payload) {
+        case 'Select Download Folder':
+          {
+            const directory = await dialogOpen({
+              directory: true,
+              title: 'Select Download Folder'
+            });
+            if (typeof directory === 'string') {
+              DOWNLOAD_FOLDER.set(directory);
+            }
+          }
+          break;
+        case 'Open Download Folder': {
+          // windows only
+          await shellOpen($DOWNLOAD_FOLDER);
+        }
+        default:
+          return;
+      }
+    });
+  });
+
+  onDestroy(() => {
+    cleanUpSelectDownloadFolder?.();
+  });
 </script>
 
 <div id="app">
