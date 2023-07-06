@@ -7,12 +7,18 @@
   import { open as dialogOpen } from '@tauri-apps/api/dialog';
   import { open as shellOpen } from '@tauri-apps/api/shell';
   import { DOWNLOAD_FOLDER } from '@app/store';
+  import { goto } from '$app/navigation';
 
   let cleanUpSelectDownloadFolder: () => void;
 
   onMount(() => {
     cleanUpSelectDownloadFolder = useTauriEvent<string>(TauriEvent.MENU, async ({ payload }) => {
       switch (payload) {
+        case 'Open Download Folder':
+          {
+            await shellOpen($DOWNLOAD_FOLDER);
+          }
+          break;
         case 'Select Download Folder':
           {
             const directory = await dialogOpen({
@@ -24,10 +30,11 @@
             }
           }
           break;
-        case 'Open Download Folder': {
-          // windows only
-          await shellOpen($DOWNLOAD_FOLDER);
-        }
+        case 'Options...':
+          {
+            goto('/Options');
+          }
+          break;
         default:
           return;
       }
