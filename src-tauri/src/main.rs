@@ -1,7 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tauri::api::shell;
+use tauri::api::{dialog, shell};
 use tauri::{CustomMenuItem, Manager, Menu, MenuEntry, MenuItem, Submenu};
 
 fn main() {
@@ -113,13 +113,23 @@ fn main() {
     .build(context)
     .expect("error while running tauri application");
 
-  app.run(|_app_handle, run_event| match run_event {
+  app.run(|app_handle, run_event| match run_event {
     tauri::RunEvent::WindowEvent { event, .. } => match event {
       tauri::WindowEvent::CloseRequested { api, .. } => {
-        // TODO confirm exit
+        api.prevent_close();
+        dialog::confirm(
+          Some(&app_handle.get_window("main").unwrap()),
+          "Close spotDL GUI",
+          "Are you sure?",
+          |answer| {
+            if answer {
+              std::process::exit(0);
+            }
+          },
+        )
       }
       _ => {}
     },
     _ => {}
-  });
+  })
 }
