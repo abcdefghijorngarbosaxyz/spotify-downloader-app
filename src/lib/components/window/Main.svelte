@@ -9,41 +9,36 @@
   import { DOWNLOAD_FOLDER } from '@app/store';
   import { goto } from '$app/navigation';
 
-  let cleanUpSelectDownloadFolder: () => void;
+  // let cleanUpSelectDownloadFolder: () => void;
 
-  onMount(() => {
-    cleanUpSelectDownloadFolder = useTauriEvent<string>(TauriEvent.MENU, async ({ payload }) => {
-      switch (payload) {
-        case 'Open Download Folder':
-          {
-            await shellOpen($DOWNLOAD_FOLDER);
-          }
-          break;
-        case 'Select Download Folder':
-          {
-            const directory = await dialogOpen({
-              directory: true,
-              title: 'Select Download Folder'
-            });
-            if (typeof directory === 'string') {
-              DOWNLOAD_FOLDER.set(directory);
-            }
-          }
-          break;
-        case 'Options...':
-          {
-            goto('/Options');
-          }
-          break;
-        default:
-          return;
-      }
-    });
-  });
+  // onMount(() => {
+  //   cleanUpSelectDownloadFolder = useTauriEvent<string>(TauriEvent.MENU, async ({ payload }) => {
+  //     switch (payload) {
+  //       case 'Select Download Folder':
+  //         {
+  //           const directory = await dialogOpen({
+  //             directory: true,
+  //             title: 'Select Download Folder'
+  //           });
+  //           if (typeof directory === 'string') {
+  //             DOWNLOAD_FOLDER.set(directory);
+  //           }
+  //         }
+  //         break;
+  //       case 'Options...':
+  //         {
+  //           goto('/Options');
+  //         }
+  //         break;
+  //       default:
+  //         return;
+  //     }
+  //   });
+  // });
 
-  onDestroy(() => {
-    cleanUpSelectDownloadFolder?.();
-  });
+  // onDestroy(() => {
+  //   cleanUpSelectDownloadFolder?.();
+  // });
 </script>
 
 <div id="app">

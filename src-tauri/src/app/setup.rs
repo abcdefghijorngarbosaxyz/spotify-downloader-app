@@ -4,7 +4,7 @@ use log::{error, info};
 use tauri::{App, AppHandle, Context, Manager, WindowBuilder};
 
 pub fn init(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
-  info!("[INFO] Setup");
+  info!("Setup");
   let app: AppHandle = app.handle();
   let name: String = app.package_info().name.clone();
 
@@ -26,8 +26,12 @@ pub fn init(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if let Err(err) = main_window.build() {
-      error!("Build main_window: {}", err);
+      error!("[ERROR] Build main_window: {}", err);
     }
+
+    #[cfg(debug_assertions)]
+    app.get_window("main").unwrap().open_devtools();
   });
+
   Ok(())
 }

@@ -20,6 +20,7 @@ macro_rules! pub_struct {
 pub_struct!(AppConf {
   always_on_top: bool,
   global_shortcut: Option<String>,
+  download_folder: String,
 });
 
 impl AppConf {
@@ -27,6 +28,10 @@ impl AppConf {
     Self {
       always_on_top: false,
       global_shortcut: None,
+      download_folder: tauri::api::path::download_dir()
+        .unwrap()
+        .to_string_lossy()
+        .to_string(),
     }
   }
 
@@ -68,6 +73,7 @@ impl AppConf {
     }
     self
   }
+
   pub fn patch(self, json: Value) -> Self {
     let val = serde_json::to_value(&self).unwrap();
     let mut config: BTreeMap<String, Value> = serde_json::from_value(val).unwrap();
