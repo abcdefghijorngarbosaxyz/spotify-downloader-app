@@ -1,2 +1,7 @@
 tab_spaces = 2
 max_width = 100
+edition = "2021"
+hard_tabs = false
+match_block_trailing_comma = true
+merge_derives = false
+newline_style = "Unix"
